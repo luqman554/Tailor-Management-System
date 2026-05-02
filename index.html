@@ -17,11 +17,37 @@
         }
 
         .login-card {
-            width: 100%;
-            max-width: 450px;
-            padding: 3rem;
+            width: 95%;
+            max-width: 480px;
+            padding: 2.5rem;
             position: relative;
             z-index: 10;
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-gold) transparent;
+        }
+
+        .login-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .login-card::-webkit-scrollbar-thumb {
+            background: var(--primary-gold);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.5rem;
+                width: 100%;
+                border-radius: 0;
+                max-height: 100vh;
+            }
+            body {
+                align-items: flex-start;
+                padding: 20px 0;
+            }
         }
 
         .login-card::before {
