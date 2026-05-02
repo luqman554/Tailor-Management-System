@@ -7,7 +7,8 @@ const STORAGE_KEYS = {
     ORDERS: 'tms_orders',
     MEASUREMENTS: 'tms_measurements',
     SETTINGS: 'tms_settings',
-    USER: 'tms_user',
+    CURRENT_USER: 'tms_current_user',
+    USERS: 'tms_users',
     PAYMENTS: 'tms_payments'
 };
 
@@ -101,22 +102,38 @@ const Storage = {
     },
 
     // Auth
+    getUsers() {
+        return this.get(STORAGE_KEYS.USERS) || [{ email: 'admin@tailor.com', password: 'admin123', name: 'Admin' }];
+    },
+
+    signup(user) {
+        const users = this.getUsers();
+        if (users.find(u => u.email === user.email)) {
+            return { success: false, message: 'Email already exists' };
+        }
+        users.push(user);
+        this.save(STORAGE_KEYS.USERS, users);
+        return { success: true };
+    },
+
     login(email, password) {
-        // Fake auth
-        if (email === 'admin@tailor.com' && password === 'admin123') {
-            const user = { email, name: 'Admin', role: 'owner' };
-            this.save(STORAGE_KEYS.USER, user);
+        const users = this.getUsers();
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+            const sessionUser = { ...user };
+            delete sessionUser.password;
+            this.save(STORAGE_KEYS.CURRENT_USER, sessionUser);
             return true;
         }
         return false;
     },
 
     getCurrentUser() {
-        return this.get(STORAGE_KEYS.USER);
+        return this.get(STORAGE_KEYS.CURRENT_USER);
     },
 
     logout() {
-        localStorage.removeItem(STORAGE_KEYS.USER);
+        localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
     },
 
     // Reset Data
