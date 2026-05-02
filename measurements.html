@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurements | Tailor Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .measurement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .customer-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .body-visual {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            opacity: 0.5;
+        }
+        .measurement-card {
+            position: relative;
+        }
+        .measurement-card label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-gold);
+        }
+        .measurement-card input {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 1rem;
+        }
+        .unit {
+            position: absolute;
+            right: 1rem;
+            bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon"><i class="fas fa-scissors"></i></div>
+                <span class="logo-text">ELITE TAILORS</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="measurements.html" class="nav-item active">
+                    <i class="fas fa-ruler-combined"></i>
+                    <span>Measurements</span>
+                </a>
+                <a href="orders.html" class="nav-item">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="invoices.html" class="nav-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Invoices</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <div class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="page-title">Body Measurements</h2>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="saveMeasurementsBtn">
+                        <i class="fas fa-save"></i> Save Measurements
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="customer-selector">
+                        <div style="flex: 1;">
+                            <label style="color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Select Customer</label>
+                            <select id="customerSelect" class="form-control">
+                                <option value="">-- Select a Customer --</option>
+                            </select>
+                        </div>
+                        <div id="customerInfo" style="display: none;">
+                            <span id="customerPhone" style="color: var(--text-muted);"></span>
+                        </div>
+                    </div>
+
+                    <div id="measurementsForm" style="display: none;">
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                            <div class="visual-section">
+                                <div class="card" style="text-align: center; background: rgba(0,0,0,0.2);">
+                                    <i class="fas fa-user-tie" style="font-size: 150px; color: var(--primary-gold); margin: 2rem 0; opacity: 0.3;"></i>
+                                    <p style="color: var(--text-muted);">Standard Male/Female Templates available</p>
+                                </div>
+                            </div>
+                            
+                            <div class="fields-section">
+                                <h3 style="margin-bottom: 1rem; color: var(--primary-gold);">Primary Measurements (inches)</h3>
+                                <div class="measurement-grid">
+                                    <div class="form-group measurement-card">
+                                        <label>Neck</label>
+                                        <input type="number" step="0.1" class="form-control" name="neck">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Chest</label>
+                                        <input type="number" step="0.1" class="form-control" name="chest">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Shoulder</label>
+                                        <input type="number" step="0.1" class="form-control" name="shoulder">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Sleeve</label>
+                                        <input type="number" step="0.1" class="form-control" name="sleeve">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Waist</label>
+                                        <input type="number" step="0.1" class="form-control" name="waist">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Hip</label>
+                                        <input type="number" step="0.1" class="form-control" name="hip">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Shirt Length</label>
+                                        <input type="number" step="0.1" class="form-control" name="shirtLength">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Trouser Length</label>
+                                        <input type="number" step="0.1" class="form-control" name="trouserLength">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Bottom / Mori</label>
+                                        <input type="number" step="0.1" class="form-control" name="bottom">
+                                        <span class="unit">in</span>
+                                    </div>
+                                    <div class="form-group measurement-card">
+                                        <label>Thigh</label>
+                                        <input type="number" step="0.1" class="form-control" name="thigh">
+                                        <span class="unit">in</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="noCustomerSelected" style="text-align: center; padding: 5rem; color: var(--text-muted);">
+                        <i class="fas fa-ruler-horizontal" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Please select a customer to view or edit their measurements.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/measurements.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Tailor Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            overflow: hidden;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-gold), transparent, var(--secondary-gold));
+            z-index: -1;
+            border-radius: var(--border-radius);
+            opacity: 0.3;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header h1 {
+            color: var(--primary-gold);
+            font-size: 2rem;
+            margin-top: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .login-logo {
+            font-size: 3rem;
+            color: var(--primary-gold);
+        }
+
+        .login-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .bg-decor {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            filter: blur(80px);
+            opacity: 0.1;
+        }
+
+        .c1 { width: 300px; height: 300px; top: -150px; right: -150px; }
+        .c2 { width: 400px; height: 400px; bottom: -200px; left: -200px; }
+    </style>
+</head>
+<body>
+    <div class="bg-decor">
+        <div class="circle c1"></div>
+        <div class="circle c2"></div>
+    </div>
+
+    <div class="card login-card slide-in">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="fas fa-scissors"></i>
+            </div>
+            <h1>ELITE TAILORS</h1>
+            <p style="color: var(--text-muted)">Management System</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <div style="position: relative;">
+                    <i class="fas fa-envelope" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted)"></i>
+                    <input type="email" id="email" class="form-control" placeholder="admin@tailor.com" required style="padding-left: 3rem;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div style="position: relative;">
+                    <i class="fas fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted)"></i>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required style="padding-left: 3rem; padding-right: 3rem;">
+                    <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted)"></i>
+                </div>
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+                <label style="display: flex; align-items: center; cursor: pointer; margin-bottom: 0;">
+                    <input type="checkbox" style="margin-right: 0.5rem; accent-color: var(--primary-gold);"> Remember Me
+                </label>
+                <a href="#" style="color: var(--primary-gold); text-decoration: none; font-size: 0.85rem;">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;">
+                LOGIN TO DASHBOARD <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>Demo Login: <strong>admin@tailor.com</strong> / <strong>admin123</strong></p>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (Storage.login(email, password)) {
+                UI.showNotification('Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                UI.showNotification('Invalid credentials. Please try again.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

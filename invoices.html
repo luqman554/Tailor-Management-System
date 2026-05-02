@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice | Tailor Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .invoice-actions {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .invoice-paper {
+            background: #fff;
+            color: #000;
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            min-height: 1000px;
+            position: relative;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        .invoice-logo {
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        .invoice-logo span {
+            color: #D4AF37;
+        }
+        .invoice-title {
+            text-align: right;
+        }
+        .invoice-title h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #D4AF37;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+        .info-section h4 {
+            text-transform: uppercase;
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3rem;
+        }
+        .invoice-table th {
+            background: #f8f8f8;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #eee;
+        }
+        .invoice-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-summary {
+            margin-left: auto;
+            width: 300px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+        .summary-row.total {
+            border-top: 2px solid #D4AF37;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .measurements-summary {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fdfdfd;
+            border: 1px dashed #D4AF37;
+            font-size: 0.85rem;
+        }
+        .measurements-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .footer-note {
+            position: absolute;
+            bottom: 3rem;
+            left: 3rem;
+            right: 3rem;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 2rem;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        @media print {
+            body { background: #fff; }
+            .sidebar, .invoice-actions, header { display: none !important; }
+            .main-content { margin: 0; padding: 0; }
+            .invoice-paper { box-shadow: none; margin: 0; width: 100%; max-width: none; }
+            .content-wrapper { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon"><i class="fas fa-scissors"></i></div>
+                <span class="logo-text">ELITE TAILORS</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                <a href="customers.html" class="nav-item"><i class="fas fa-users"></i><span>Customers</span></a>
+                <a href="measurements.html" class="nav-item"><i class="fas fa-ruler-combined"></i><span>Measurements</span></a>
+                <a href="orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Orders</span></a>
+                <a href="invoices.html" class="nav-item active"><i class="fas fa-file-invoice-dollar"></i><span>Invoices</span></a>
+                <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></div>
+                    <h2 class="page-title">Generate Invoice</h2>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="invoice-actions">
+                    <div style="flex: 1; max-width: 300px;">
+                        <select id="invoiceOrderSelect" class="form-control">
+                            <option value="">-- Select Order --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Invoice
+                        </button>
+                    </div>
+                </div>
+
+                <div id="invoiceContainer" style="display: none;">
+                    <div class="invoice-paper" id="invoicePaper">
+                        <div class="invoice-header">
+                            <div class="invoice-logo">
+                                ELITE <span>TAILORS</span>
+                                <p style="font-size: 0.8rem; font-weight: normal; color: #666; margin-top: 5px;">Luxury Bespoke Tailoring</p>
+                            </div>
+                            <div class="invoice-title">
+                                <h1>INVOICE</h1>
+                                <p>No: <span id="invNo">INV-000</span></p>
+                                <p>Date: <span id="invDate">May 2, 2024</span></p>
+                            </div>
+                        </div>
+
+                        <div class="info-grid">
+                            <div class="info-section">
+                                <h4>BILL TO</h4>
+                                <p><strong id="invCustName">John Doe</strong></p>
+                                <p id="invCustPhone">+1 234 567 890</p>
+                                <p id="invCustAddress">123 Street, City</p>
+                            </div>
+                            <div class="info-section" style="text-align: right;">
+                                <h4>DUE DATE</h4>
+                                <p><strong id="invDueDate">May 15, 2024</strong></p>
+                                <p>Status: <span id="invStatus" style="color: #D4AF37; font-weight: bold;">PENDING</span></p>
+                            </div>
+                        </div>
+
+                        <table class="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th style="text-align: center;">Qty</th>
+                                    <th style="text-align: right;">Price</th>
+                                    <th style="text-align: right;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invItems">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+
+                        <div class="invoice-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="invSubtotal">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Advance Paid</span>
+                                <span id="invAdvance" style="color: green;">-$0.00</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Balance Due</span>
+                                <span id="invTotal">$0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="measurements-summary" id="invMeasurementsSection">
+                            <h4 style="margin-bottom: 1rem; font-size: 0.8rem; color: #D4AF37;">ATTACHED MEASUREMENTS</h4>
+                            <div class="measurements-list" id="invMeasurementsList">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+
+                        <div class="footer-note">
+                            <p>Thank you for choosing Elite Tailors. Please bring this invoice for trial and delivery.</p>
+                            <p style="margin-top: 5px;">This is a computer-generated invoice.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="noInvoiceSelected" style="text-align: center; padding: 10rem; color: var(--text-muted);">
+                    <i class="fas fa-file-invoice" style="font-size: 4rem; margin-bottom: 2rem; opacity: 0.2;"></i>
+                    <h3>Select an order from the dropdown above to generate an invoice</h3>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/invoices.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
+</body>
+</html>

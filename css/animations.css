@@ -1,0 +1,58 @@
+/* Modern CSS Animations */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.slide-in {
+    animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.hover-pulse:hover {
+    animation: pulse 0.5s infinite;
+}
+
+/* Staggered animation for lists */
+.staggered-list > * {
+    opacity: 0;
+}
+
+.staggered-list > *:nth-child(1) { animation: fadeIn 0.4s 0.1s forwards; }
+.staggered-list > *:nth-child(2) { animation: fadeIn 0.4s 0.2s forwards; }
+.staggered-list > *:nth-child(3) { animation: fadeIn 0.4s 0.3s forwards; }
+.staggered-list > *:nth-child(4) { animation: fadeIn 0.4s 0.4s forwards; }
+.staggered-list > *:nth-child(5) { animation: fadeIn 0.4s 0.5s forwards; }
+
+/* Modal Transitions */
+.modal-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification-content {
+    animation: slideInRight 0.3s ease-out forwards;
+}
+
+.slide-out {
+    animation: slideInRight 0.3s ease-in reverse forwards;
+}

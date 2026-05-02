@@ -1,0 +1,72 @@
+/* Responsive Adjustments */
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 80px;
+    }
+    .sidebar .logo-text, .sidebar .nav-item span {
+        display: none;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .header-right .search-bar {
+        display: none; /* Hide search bar on mobile header */
+    }
+    
+    .content-wrapper {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title {
+        font-size: 1.1rem;
+    }
+
+    .btn span {
+        display: none;
+    }
+    
+    .btn i {
+        margin: 0;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+}
+
+/* Print Overrides */
+@media print {
+    .app-container {
+        display: block;
+    }
+    .sidebar, header, .invoice-actions, .no-print {
+        display: none !important;
+    }
+    .main-content {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}

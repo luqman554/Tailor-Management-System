@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | Tailor Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/orders.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon"><i class="fas fa-scissors"></i></div>
+                <span class="logo-text">ELITE TAILORS</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="measurements.html" class="nav-item">
+                    <i class="fas fa-ruler-combined"></i>
+                    <span>Measurements</span>
+                </a>
+                <a href="orders.html" class="nav-item active">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="invoices.html" class="nav-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Invoices</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <div class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="page-title">Order Management</h2>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="addOrderBtn">
+                        <i class="fas fa-plus"></i> Create New Order
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="card filter-card">
+                    <div class="filter-group">
+                        <label>Search Order</label>
+                        <input type="text" id="orderSearch" class="form-control" placeholder="ID or Customer Name">
+                    </div>
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Cutting">Cutting</option>
+                            <option value="Stitching">Stitching</option>
+                            <option value="Ready">Ready</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Priority</label>
+                        <select id="priorityFilter" class="form-control">
+                            <option value="">All Priorities</option>
+                            <option value="Normal">Normal</option>
+                            <option value="High">High</option>
+                            <option value="Urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="order-stats">
+                    <div class="order-stat-mini">
+                        <span class="dot" style="background: #FF9800;"></span> Pending: <strong id="countPending">0</strong>
+                    </div>
+                    <div class="order-stat-mini">
+                        <span class="dot" style="background: #2196F3;"></span> Processing: <strong id="countProcessing">0</strong>
+                    </div>
+                    <div class="order-stat-mini">
+                        <span class="dot" style="background: #4CAF50;"></span> Ready/Delivered: <strong id="countCompleted">0</strong>
+                    </div>
+                </div>
+
+                <div class="orders-list-container" id="ordersList">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content card slide-in">
+            <div class="modal-header">
+                <h3 id="orderModalTitle">Create New Order</h3>
+                <button class="close-modal" id="closeOrderModal">&times;</button>
+            </div>
+            <form id="orderForm">
+                <input type="hidden" id="orderId">
+                
+                <div class="form-section">
+                    <h4>Customer & Fabric</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Customer *</label>
+                            <select id="orderCustomer" class="form-control" required>
+                                <option value="">-- Select Customer --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Dress Type *</label>
+                            <input type="text" id="dressType" class="form-control" placeholder="e.g. Suit, Shirt, Trouser" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fabric Detail</label>
+                            <input type="text" id="fabric" class="form-control" placeholder="e.g. Cotton, Silk">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" id="quantity" class="form-control" value="1" min="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Dates & Priority</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Trial Date</label>
+                            <input type="date" id="trialDate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery Date *</label>
+                            <input type="date" id="deliveryDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="priority" class="form-control">
+                                <option value="Normal">Normal</option>
+                                <option value="High">High</option>
+                                <option value="Urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Initial Status</label>
+                            <select id="orderStatus" class="form-control">
+                                <option value="Pending">Pending</option>
+                                <option value="Cutting">Cutting</option>
+                                <option value="Stitching">Stitching</option>
+                                <option value="Ready">Ready</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Payment</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total Amount *</label>
+                            <input type="number" id="totalAmount" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Advance Paid</label>
+                            <input type="number" id="advancePaid" class="form-control" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Order Notes</label>
+                    <textarea id="orderNotes" class="form-control" rows="2" placeholder="Specific stitching instructions..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelOrderBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/orders.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
+</body>
+</html>

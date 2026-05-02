@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Tailor Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon"><i class="fas fa-scissors"></i></div>
+                <span class="logo-text">ELITE TAILORS</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                <a href="customers.html" class="nav-item"><i class="fas fa-users"></i><span>Customers</span></a>
+                <a href="measurements.html" class="nav-item"><i class="fas fa-ruler-combined"></i><span>Measurements</span></a>
+                <a href="orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Orders</span></a>
+                <a href="invoices.html" class="nav-item"><i class="fas fa-file-invoice-dollar"></i><span>Invoices</span></a>
+                <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i><span>Settings</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></div>
+                    <h2 class="page-title">Application Settings</h2>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 1.5rem;">Shop Information</h3>
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label>Shop Name</label>
+                                <input type="text" id="shopName" class="form-control" placeholder="Elite Tailors">
+                            </div>
+                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div class="form-group">
+                                    <label>Currency Symbol</label>
+                                    <select id="currency" class="form-control">
+                                        <option value="USD">$ - USD</option>
+                                        <option value="PKR">Rs - PKR</option>
+                                        <option value="INR">₹ - INR</option>
+                                        <option value="GBP">£ - GBP</option>
+                                        <option value="EUR">€ - EUR</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Theme Preference</label>
+                                    <select id="themePref" class="form-control">
+                                        <option value="dark">Luxury Dark</option>
+                                        <option value="light">Classic Light</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Shop Logo URL</label>
+                                <input type="text" id="logoUrl" class="form-control" placeholder="https://example.com/logo.png">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+
+                    <div class="card" style="border-color: var(--danger);">
+                        <h3 style="color: var(--danger); margin-bottom: 1rem;">Danger Zone</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Deleting all data will permanently remove all customers, orders, and measurements. This action cannot be undone.</p>
+                        <button class="btn btn-outline" id="resetDataBtn" style="color: var(--danger); border-color: var(--danger);">
+                            <i class="fas fa-trash-alt"></i> Reset All Application Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const settings = Storage.getSettings();
+            document.getElementById('shopName').value = settings.shopName;
+            document.getElementById('currency').value = settings.currency || 'USD';
+            document.getElementById('themePref').value = settings.theme || 'dark';
+            document.getElementById('logoUrl').value = settings.logo || '';
+
+            document.getElementById('settingsForm').onsubmit = (e) => {
+                e.preventDefault();
+                const newSettings = {
+                    shopName: document.getElementById('shopName').value,
+                    currency: document.getElementById('currency').value,
+                    theme: document.getElementById('themePref').value,
+                    logo: document.getElementById('logoUrl').value
+                };
+                Storage.saveSettings(newSettings);
+                UI.setTheme(newSettings.theme);
+                UI.showNotification('Settings saved. Refreshing...');
+                setTimeout(() => window.location.reload(), 1000);
+            };
+
+            document.getElementById('resetDataBtn').onclick = () => {
+                if (confirm('CRITICAL WARNING: Are you sure you want to delete EVERYTHING? This cannot be undone.')) {
+                    Storage.resetAll();
+                    UI.showNotification('All data cleared', 'error');
+                    setTimeout(() => window.location.href = 'index.html', 1500);
+                }
+            };
+
+            document.getElementById('sidebarToggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>
