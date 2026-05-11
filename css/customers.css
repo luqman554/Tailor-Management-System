@@ -150,4 +150,11 @@
     .form-row {
         grid-template-columns: 1fr;
     }
+    .search-filter-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-box select {
+        width: 100% !important;
+    }
 }

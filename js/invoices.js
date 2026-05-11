@@ -58,13 +58,13 @@ function renderInvoice(orderId) {
     const tableBody = document.getElementById('invItems');
     tableBody.innerHTML = `
         <tr>
-            <td>
+            <td data-label="Item Description">
                 <strong>${order.dressType}</strong><br>
                 <span style="font-size: 0.8rem; color: #666;">Fabric: ${order.fabric || 'Standard'}, Notes: ${order.notes || 'None'}</span>
             </td>
-            <td style="text-align: center;">${order.quantity || 1}</td>
-            <td style="text-align: right;">${Utils.formatCurrency(order.totalAmount / (order.quantity || 1))}</td>
-            <td style="text-align: right;">${Utils.formatCurrency(order.totalAmount)}</td>
+            <td data-label="Quantity" style="text-align: center;">${order.quantity || 1}</td>
+            <td data-label="Rate" style="text-align: right;">${Utils.formatCurrency(order.totalAmount / (order.quantity || 1))}</td>
+            <td data-label="Amount" style="text-align: right;">${Utils.formatCurrency(order.totalAmount)}</td>
         </tr>
     `;
 

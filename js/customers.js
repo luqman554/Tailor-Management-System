@@ -26,7 +26,7 @@ function renderCustomers() {
 
     tableBody.innerHTML = filteredCustomers.map(customer => `
         <tr>
-            <td>
+            <td data-label="Customer Name">
                 <div class="customer-info-cell">
                     <div class="customer-initials">${customer.name.charAt(0)}</div>
                     <div class="customer-name-wrapper">
@@ -35,15 +35,15 @@ function renderCustomers() {
                     </div>
                 </div>
             </td>
-            <td>
+            <td data-label="Contact Info">
                 <div style="font-size: 0.9rem;">
                     <i class="fas fa-phone" style="color: var(--primary-gold); margin-right: 5px;"></i> ${customer.phone}<br>
                     <i class="fab fa-whatsapp" style="color: #25D366; margin-right: 5px;"></i> ${customer.whatsapp || 'N/A'}
                 </div>
             </td>
-            <td><span class="status-badge" style="background: rgba(255,255,255,0.05);">${customer.gender}</span></td>
-            <td>${Utils.formatDate(customer.createdAt)}</td>
-            <td>
+            <td data-label="Gender"><span class="status-badge" style="background: rgba(255,255,255,0.05);">${customer.gender}</span></td>
+            <td data-label="Joined Date">${Utils.formatDate(customer.createdAt)}</td>
+            <td data-label="Actions">
                 <div class="action-btns">
                     <button class="btn-icon" onclick="openEditModal('${customer.id}')" title="Edit">
                         <i class="fas fa-edit"></i>

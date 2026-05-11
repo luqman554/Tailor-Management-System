@@ -65,9 +65,40 @@ const UI = {
     initSidebar() {
         const sidebar = document.querySelector('.sidebar');
         const toggle = document.querySelector('.sidebar-toggle');
+        
+        // Create overlay if it doesn't exist
+        let overlay = document.querySelector('.sidebar-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'sidebar-overlay';
+            document.body.appendChild(overlay);
+        }
+
         if (toggle && sidebar) {
             toggle.addEventListener('click', () => {
-                sidebar.classList.toggle('collapsed');
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                } else {
+                    sidebar.classList.toggle('collapsed');
+                }
+            });
+
+            // Close sidebar when clicking overlay
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            // Close sidebar when clicking a nav item on mobile
+            const navItems = sidebar.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                    }
+                });
             });
         }
     },

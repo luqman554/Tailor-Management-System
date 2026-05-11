@@ -165,7 +165,6 @@
 
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
     <script src="js/dashboard.js"></script>
     <script>
@@ -173,16 +172,6 @@
         if (!Storage.getCurrentUser()) {
             window.location.href = 'index.html';
         }
-
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            Storage.logout();
-            window.location.href = 'index.html';
-        });
-
-        document.getElementById('sidebarToggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-        });
     </script>
 </body>
 </html>

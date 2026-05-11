@@ -1,72 +1,261 @@
-/* Responsive Adjustments */
+/* 
+    Tailor Management System - Responsive Styles
+    Improved for all devices (Mobile, Tablet, Desktop)
+    Optimized for Android/iOS Touch Devices
+*/
 
+:root {
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 80px;
+}
+
+/* Base Responsive Fixes */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 1. Tablets & Small Laptops (up to 1024px) */
 @media (max-width: 1024px) {
     .sidebar {
-        width: 80px;
+        width: var(--sidebar-collapsed-width);
     }
-    .sidebar .logo-text, .sidebar .nav-item span {
+    
+    .sidebar .logo-text, 
+    .sidebar .nav-item span,
+    .sidebar .sidebar-footer span {
         display: none;
     }
+    
+    .sidebar .logo-container {
+        justify-content: center;
+        padding: 1.5rem 0;
+    }
+    
+    .sidebar .nav-item {
+        justify-content: center;
+        padding: 1.2rem;
+    }
+
     .main-content {
-        margin-left: 0;
+        width: calc(100% - var(--sidebar-collapsed-width));
     }
 }
 
+/* 2. Mobile Devices (up to 768px) */
 @media (max-width: 768px) {
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .dashboard-grid {
-        grid-template-columns: 1fr;
+    .app-container {
+        position: relative;
+        overflow-x: hidden;
+        width: 100%;
     }
 
-    .form-row {
-        grid-template-columns: 1fr;
+    .sidebar {
+        position: fixed;
+        left: calc(-1.1 * var(--sidebar-width)); /* Extra offset for shadow */
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-width) !important;
+        z-index: 3000;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 15px 0 30px rgba(0,0,0,0.6);
+        background-color: var(--sidebar-bg);
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    /* Force visibility of elements in mobile sidebar */
+    .sidebar .logo-text, 
+    .sidebar .nav-item span,
+    .sidebar .sidebar-footer span {
+        display: block !important;
+    }
+
+    .sidebar .logo-container {
+        justify-content: space-between;
+        padding: 1.5rem;
+    }
+
+    .sidebar .nav-item {
+        justify-content: flex-start;
+        padding: 1rem 1.5rem;
+        font-size: 1.05rem; /* Larger for touch */
+    }
+
+    .main-content {
+        width: 100% !important;
+        min-width: 100%;
+    }
+
+    header {
+        padding: 0 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: var(--sidebar-bg);
     }
 
     .header-right .search-bar {
-        display: none; /* Hide search bar on mobile header */
+        display: none;
     }
-    
+
     .content-wrapper {
         padding: 1rem;
     }
-}
 
-@media (max-width: 480px) {
+    /* Stats Grid - 2 columns */
     .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .page-title {
-        font-size: 1.1rem;
-    }
-
-    .btn span {
-        display: none;
-    }
-    
-    .btn i {
-        margin: 0;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
     }
 
     .stat-card {
         padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+
+    .stat-info h3 {
+        font-size: 0.75rem;
+    }
+
+    .stat-info p {
+        font-size: 1.2rem;
+    }
+
+    /* Modals for Mobile */
+    .modal-content {
+        width: 95% !important;
+        margin: 10px auto;
+        padding: 1.5rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* Buttons for touch */
+    .btn {
+        min-height: 44px; /* Apple/Google recommended min height */
     }
 }
 
-/* Print Overrides */
-@media print {
-    .app-container {
+/* 3. Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-title {
+        font-size: 1rem;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .user-profile span {
+        display: none;
+    }
+
+    .header-right {
+        gap: 0.8rem;
+    }
+
+    /* Tables - Stack layout for mobile */
+    .data-table thead {
+        display: none;
+    }
+
+    .data-table, .data-table tbody, .data-table tr, .data-table td {
         display: block;
-    }
-    .sidebar, header, .invoice-actions, .no-print {
-        display: none !important;
-    }
-    .main-content {
         width: 100%;
-        margin: 0;
-        padding: 0;
     }
+
+    .data-table tr {
+        margin-bottom: 1.5rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 0.8rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .data-table td {
+        text-align: right;
+        padding: 0.8rem 0.5rem;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        min-height: 40px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .data-table td:last-child {
+        border-bottom: none;
+        justify-content: center;
+        padding-top: 1rem;
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0.5rem;
+        width: 45%;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary-gold);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+    }
+
+    /* Action buttons in tables */
+    .action-btns {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    /* Dashboard grids */
+    .card-header h3 {
+        font-size: 1rem;
+    }
+}
+
+/* 4. Sidebar Overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 2500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Tap Highlight Fix for Android */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling for the whole app */
+html {
+    scroll-behavior: smooth;
 }

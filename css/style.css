@@ -235,6 +235,19 @@ header {
     margin-bottom: 1.5rem;
 }
 
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 576px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
@@ -245,16 +258,40 @@ header {
 .form-control {
     width: 100%;
     padding: 0.8rem 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    color: #fff;
+    color: var(--text-main);
     outline: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
+}
+
+/* Explicitly set option colors for all browsers */
+select.form-control option {
+    background-color: #1a1a1a; /* Fixed dark background for dark theme */
+    color: #ffffff;            /* Fixed white text for dark theme */
+}
+
+[data-theme="light"] select.form-control option {
+    background-color: #ffffff; /* White background for light theme */
+    color: #1a1a1a;            /* Dark text for light theme */
 }
 
 .form-control:focus {
     border-color: var(--primary-gold);
-    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    background-color: var(--glass-bg);
 }
 
 /* Notifications */

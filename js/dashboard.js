@@ -39,10 +39,10 @@ function renderRecentOrders(orders) {
 
     tableBody.innerHTML = recent.map(order => `
         <tr>
-            <td><strong>#${order.id}</strong></td>
-            <td>${order.customerName}</td>
-            <td><span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></td>
-            <td>${Utils.formatCurrency(order.totalAmount)}</td>
+            <td data-label="Order ID"><strong>#${order.id}</strong></td>
+            <td data-label="Customer">${order.customerName}</td>
+            <td data-label="Status"><span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></td>
+            <td data-label="Amount">${Utils.formatCurrency(order.totalAmount)}</td>
         </tr>
     `).join('');
 }

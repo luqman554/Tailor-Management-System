@@ -42,7 +42,7 @@
                                 <label>Shop Name</label>
                                 <input type="text" id="shopName" class="form-control" placeholder="Elite Tailors">
                             </div>
-                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-row">
                                 <div class="form-group">
                                     <label>Currency Symbol</label>
                                     <select id="currency" class="form-control">
@@ -83,7 +83,6 @@
 
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -114,10 +113,6 @@
                     setTimeout(() => window.location.href = 'index.html', 1500);
                 }
             };
-
-            document.getElementById('sidebarToggle').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.toggle('collapsed');
-            });
         });
     </script>
 </body>
